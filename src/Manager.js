@@ -3,13 +3,14 @@ import { getBestAnchorGivenScrollLocation, getScrollTop } from './utils/scroll';
 import { getHash, updateHash, removeHash } from './utils/hash';
 
 const defaultConfig = {
-  affectHistory: true,
+  affectHistory: false,
   debounce: 100,
   keepLastAnchorHash: false,
   offset: 0,
   scrollBehaviour: 'smooth',
   scrollDelay: 0,
-  scrollOnImagesLoad: false
+  scrollOnImagesLoad: false,
+  onSectionEnter: null
 }
 
 const EVENT_IMAGES_LOADED = 'images:loaded';
@@ -101,6 +102,7 @@ class Manager {
     }
     this.forceHashUpdate();
     this.anchors[id] = {
+      id,
       component: element,
       name,
       hash,
@@ -122,19 +124,38 @@ class Manager {
     }
   }
 
+  onSectionChange = (newAnchor, oldAnchor) => {
+    const {onSectionEnter} = this.config;
+
+    if (typeof onSectionEnter === 'function') {
+      onSectionEnter(
+        /* new state */
+        newAnchor ? { ...this.anchors[newAnchor], id: newAnchor } : null,
+        /* old state */
+        oldAnchor ? { ...this.anchors[oldAnchor], id: oldAnchor } : null
+      );
+    }
+  }
+
   handleScroll = () => {
     const {offset, keepLastAnchorHash, affectHistory} = this.config;
     const bestAnchorId = getBestAnchorGivenScrollLocation(this.anchors, -offset);
+    const currentHash = getHash({manager: this});
 
-    if (bestAnchorId && getHash({manager: this}) !== bestAnchorId) {
+    if (bestAnchorId && currentHash !== bestAnchorId) {
       this.forcedHash = true;
+
       updateHash({
         anchor: this.anchors[bestAnchorId],
         affectHistory,
         manager: this
       });
+
+      this.onSectionChange(bestAnchorId, currentHash);
+
     } else if (!bestAnchorId && !keepLastAnchorHash) {
       removeHash({manager: this});
+      this.onSectionEnter(null, currentHash);
     }
   }
 

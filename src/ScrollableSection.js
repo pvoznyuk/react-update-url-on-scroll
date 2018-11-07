@@ -14,7 +14,8 @@ export default class ScrollableSection extends Component {
     name: PropTypes.string,
     hash: PropTypes.string,
     title: PropTypes.string,
-    formatTitle: PropTypes.func
+    formatTitle: PropTypes.func,
+    onEnter: PropTypes.func
   }
 
   constructor(props) {

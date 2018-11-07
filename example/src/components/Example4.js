@@ -21,7 +21,12 @@ const styles = {
 export default class Example4 extends Component {
 
   componentWillMount() {
-    configureAnchors({offset: 60})
+    configureAnchors({
+      offset: 60,
+      onSectionEnter: (newState, oldState) => {
+        console.log({newState, oldState});
+      }
+    });
   }
 
   renderSection = (section) => {
