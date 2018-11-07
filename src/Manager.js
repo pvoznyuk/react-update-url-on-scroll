@@ -155,7 +155,7 @@ class Manager {
 
     } else if (!bestAnchorId && !keepLastAnchorHash) {
       removeHash({manager: this});
-      this.onSectionEnter(null, currentHash);
+      this.onSectionChange(null, currentHash);
     }
   }
 
