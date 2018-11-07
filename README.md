@@ -16,7 +16,7 @@ npm install --save react-update-url-on-scroll
 
 ## Examples
 
-[Live Demo](https://pvoznyuk.github.io/react-update-url-on-scroll) or [Source](https://github.com/pvoznyuk/react-update-url-on-scroll/tree/master/example/src/components)
+[Live Demo](https://pvoznyuk.github.io/react-update-url-on-scroll/) or [Source](https://github.com/pvoznyuk/react-update-url-on-scroll/tree/master/example/src/components)
 
 To run examples locally, `npm run example`, then open your
 browser to localhost:3210.
