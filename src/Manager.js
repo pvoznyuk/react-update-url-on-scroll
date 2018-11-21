@@ -1,6 +1,7 @@
-import { debounce } from './utils/func';
+import { debounce, getAnchoreByName } from './utils/func';
 import { getBestAnchorGivenScrollLocation, getScrollTop } from './utils/scroll';
 import { getHash, updateHash, removeHash } from './utils/hash';
+import { setMetaTags, getDefaultMetaTags } from './utils/meta';
 
 const defaultConfig = {
   affectHistory: false,
@@ -10,7 +11,8 @@ const defaultConfig = {
   scrollBehaviour: 'smooth',
   scrollDelay: 0,
   scrollOnImagesLoad: false,
-  onSectionEnter: null
+  onSectionEnter: null,
+  meta: null
 }
 
 const EVENT_IMAGES_LOADED = 'images:loaded';
@@ -26,8 +28,9 @@ class Manager {
 
     this.basePath = this.getBasePath();
     this.basePathName = window.location.pathname;
-    this.baseTitle = document.title;
     this.imagesAreLoaded = false;
+
+    this.resetDefaultMetaTags();
 
     setTimeout(() => {
       if (this.config.scrollOnImagesLoad) {
@@ -86,6 +89,20 @@ class Manager {
       ...defaultConfig,
       ...config
     }
+    this.resetDefaultMetaTags();
+  }
+
+  resetDefaultMetaTags = () => {
+    if (this.config.meta) {
+      this.defaultMetaTags = getDefaultMetaTags(this.config.meta);
+      setMetaTags(this.defaultMetaTags);
+    } else {
+      this.defaultMetaTags = getDefaultMetaTags();
+    }
+  }
+
+  setDefaultMetaTags = () => {
+    setMetaTags(this.defaultMetaTags);
   }
 
   goToTop = () => {
@@ -97,7 +114,7 @@ class Manager {
     });
   }
 
-  addAnchor = ({element, name, hash, id, title, exact}) => {
+  addAnchor = ({element, name, hash, id, meta, exact}) => {
     // if this is the first anchor, set up listeners
     if (Object.keys(this.anchors).length === 0) {
       this.addListeners();
@@ -118,9 +135,29 @@ class Manager {
       component: element,
       name,
       hash,
-      title,
+      meta,
       exact
     };
+
+    this.normalizeMetaTags();
+  }
+
+  normalizeMetaTags = () => {
+    Object.keys(this.anchors).forEach(anchorId => {
+      const anchor = this.anchors[anchorId];
+      if (anchor.hash && !anchor.meta) {
+
+        if (anchor.exact || !anchor.name) {
+          anchor.meta = this.defaultMetaTags;
+        } else if (anchor.name) {
+          const parentAnchor = getAnchoreByName(this.anchors, anchor.name);
+
+          if (parentAnchor) {
+            anchor.meta = parentAnchor.meta;
+          }
+        }
+      }
+    });
   }
 
   removeAnchor = (id) => {

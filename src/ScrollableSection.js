@@ -13,8 +13,6 @@ export default class ScrollableSection extends Component {
     ]),
     name: PropTypes.string,
     hash: PropTypes.string,
-    title: PropTypes.string,
-    formatTitle: PropTypes.func,
     onEnter: PropTypes.func
   }
 
@@ -22,7 +20,7 @@ export default class ScrollableSection extends Component {
     super(props);
     this.name = (props.name || '').replace(/^\//, '') || null;
     this.hash = (props.hash || '').replace(/^\#/, '') || props.children.ref || null;
-    this.title = props.title || null;
+    this.meta = props.meta || null;
     this.id = createId({name: this.name, hash: this.hash});
   }
 
@@ -35,7 +33,7 @@ export default class ScrollableSection extends Component {
       hash: this.hash,
       exact: !!this.props.exact,
       id: this.id,
-      title: this.title ? this.props.formatTitle(document.title, this.title) : null
+      meta: this.meta
     });
   }
 
@@ -65,7 +63,7 @@ export default class ScrollableSection extends Component {
 }
 
 ScrollableSection.defaultProps = {
-  formatTitle: (baseTitle, segmentTitle) => `${baseTitle} / ${segmentTitle}`
+ 
 };
 
 
