@@ -25,6 +25,7 @@ class Manager {
     this.forceHashUpdate = debounce(this.handleHashChange, 1);
 
     this.basePath = this.getBasePath();
+    this.basePathName = window.location.pathname;
     this.baseTitle = document.title;
     this.imagesAreLoaded = false;
 
@@ -36,6 +37,7 @@ class Manager {
 
         const incrementCounter = () => {
           counter++;
+
           if (counter === len) {
             this.imagesAreLoaded = true;
             const event = new Event(EVENT_IMAGES_LOADED);
@@ -101,6 +103,16 @@ class Manager {
       this.addListeners();
     }
     this.forceHashUpdate();
+
+    // check if this anchor is the current one
+    if (window.location.href.endsWith(`${name}${hash ? `#${hash}` : ''}`)) {
+      this.basePath = this.basePath.replace(`/${name}`, '');
+    }
+    if (window.location.pathname.endsWith(`/${name}`)) {
+      this.basePathName = this.basePathName.replace(`/${name}`, '');
+      if (this.basePathName === '') this.basePathName = '/';
+    }
+
     this.anchors[id] = {
       id,
       component: element,
@@ -109,54 +121,53 @@ class Manager {
       title,
       exact
     };
-
-    // check if this anchor is the current one
-    if (window.location.href.endsWith(`${name}${hash ? `#${hash}` : ''}`)) {
-      this.basePath = this.basePath.replace(`/${name}`, '');
-    }
   }
 
   removeAnchor = (id) => {
-    delete this.anchors[id]
+    delete this.anchors[id];
     // if this is the last anchor, remove listeners
     if (Object.keys(this.anchors).length === 0) {
-      this.removeListeners()
+      this.removeListeners();
     }
   }
 
   onSectionChange = (newAnchor, oldAnchor) => {
     const {onSectionEnter} = this.config;
+    const getPath = (anchor) => anchor.name
+      ? (anchor.exact ? `/${anchor.name}` : `${this.basePathName !== '/' ? this.basePathName : ''}/${anchor.name}`)
+      : this.basePathName;
 
     if (typeof onSectionEnter === 'function') {
-      onSectionEnter(
-        /* new state */
-        newAnchor ? { ...this.anchors[newAnchor], id: newAnchor } : null,
-        /* old state */
-        oldAnchor ? { ...this.anchors[oldAnchor], id: oldAnchor } : null
-      );
+      const nextState = newAnchor ? { ...this.anchors[newAnchor], id: newAnchor } : {};
+      nextState.path = getPath(nextState);
+
+      const prevState = oldAnchor ? { ...this.anchors[oldAnchor], id: oldAnchor } : {};
+      prevState.path = getPath(prevState);
+
+      onSectionEnter(nextState, prevState);
     }
   }
 
   handleScroll = () => {
     const {offset, keepLastAnchorHash, affectHistory} = this.config;
-    const bestAnchorId = getBestAnchorGivenScrollLocation(this.anchors, -offset);
-    const currentHash = getHash({manager: this});
+    const nextAnchor = getBestAnchorGivenScrollLocation(this.anchors, -offset);
+    const prevAnchor = getHash({manager: this});
 
-    if (bestAnchorId && currentHash !== bestAnchorId) {
+    if (nextAnchor && prevAnchor !== nextAnchor) {
       this.forcedHash = true;
 
       updateHash({
-        anchor: this.anchors[bestAnchorId],
+        anchor: this.anchors[nextAnchor],
         affectHistory,
         manager: this
       });
 
-      this.onSectionChange(bestAnchorId, currentHash);
+      this.onSectionChange(nextAnchor, prevAnchor);
 
-    } else if (!bestAnchorId && !keepLastAnchorHash) {
+    } else if (!nextAnchor && !keepLastAnchorHash) {
       removeHash({manager: this});
-      if (this.anchors[currentHash]) {
-        this.onSectionChange(null, currentHash);
+      if (this.anchors[prevAnchor]) {
+        this.onSectionChange(null, prevAnchor);
       }
     }
   }
