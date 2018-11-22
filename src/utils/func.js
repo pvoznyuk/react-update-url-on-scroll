@@ -19,3 +19,8 @@ export const debounce = (func, wait, immediate) => {
 }
 
 export const createId = ({name, hash}) => `___scroll-section___${name || ''}___${hash || ''}`;
+
+export const getAnchoreByName = (object = {}, name) => {
+  const key = Object.keys(object).find(key => object[key].name === name && !object[key].hash);
+  return key ? object[key] : null;
+}

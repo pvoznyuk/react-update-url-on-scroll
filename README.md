@@ -27,7 +27,7 @@ browser to localhost:3210.
 
 Use the `ScrollableSection` tag to wrap any React element(s), making it a scrollable anchor.
 Use the `ScrollableLink` to wrpar a link to the corresponding section.
-You may also set a `title` attribute if you want to update a document title.
+You may also set a `meta` attribute if you want to update a document title and meta-tags.
 
 ```js
 import React, { Component } from 'react';
@@ -45,11 +45,11 @@ export default class Page extends Component {
           <a> Go to section 2 </a>
         </ScrollableLink> 
 
-        <ScrollableSection name={'section1'} title="Section 1">
+        <ScrollableSection name={'section1'} meta={title: 'Section 1'} >
           <div> Hello World </div>
         </ScrollableSection>
         
-        <ScrollableSection name={'section2'} title="Section 2">
+        <ScrollableSection name={'section2'} meta={title: 'Section 2'}>
           <div> How are you world? </div>
         </ScrollableSection>
       </div>
@@ -132,6 +132,7 @@ configureAnchors({offset: 60})
 | `scrollBehaviour`     | `'smooth'`       | Can be `'smooth'`, `'instant'` and `'auto'`.
 | `scrollOnImagesLoad`  | `false`          | Wait until all the images are loaded before scrolling to the section on page load.
 | `onSectionEnter`      | `null`           | An event that is fired when user reaches to some another section. There are two attributes: `onSectionEnter(newState, oldState)`
+| `meta`                | `null`           | An object that may contain default title and meta-tags to set on page load. e.g. `meta: {title: 'Hello', description: 'World'}` 
 
 ### 3. Utilities
 
