@@ -22,7 +22,6 @@ export const updateHash = ({anchor, affectHistory, manager}) => {
 
   if (meta) {
     setMetaTags(meta);
-    console.log('SET', meta);
   } else {
     manager.setDefaultMetaTags();
   }
