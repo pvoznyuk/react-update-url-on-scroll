@@ -76,12 +76,12 @@ class Manager {
 
   addListeners = () => {
     window.addEventListener('scroll', this.scrollHandler, true);
-    window.addEventListener('hashchange', this.handleHashChange);
+    /* window.addEventListener('hashchange', this.handleHashChange); */
   }
 
   removeListeners = () => {
     window.removeEventListener('scroll', this.scrollHandler, true);
-    window.removeEventListener('hashchange', this.handleHashChange);
+    /* window.removeEventListener('hashchange', this.handleHashChange); */
   }
 
   configure = (config) => {
@@ -108,6 +108,7 @@ class Manager {
   goToTop = () => {
     if (getScrollTop() === 0) return;
     this.forcedHash = true;
+
     window.scrollTo({
       top: 0,
       behavior: this.config.scrollBehaviour
@@ -215,7 +216,8 @@ class Manager {
     if (this.forcedHash) {
       this.forcedHash = false;
     } else {
-      const runScrollingToSection = (delay) => this.goToSection(getHash({manager: this}), delay);
+      const hash = getHash({manager: this});
+      const runScrollingToSection = (delay = 0) => this.goToSection(hash, delay);
 
       if (this.config.scrollOnImagesLoad && !this.imagesAreLoaded) {
         window.addEventListener(EVENT_IMAGES_LOADED, runScrollingToSection, false);
@@ -232,7 +234,7 @@ class Manager {
 
     if (element) {
       setTimeout(() => {
-        const marginTop = ~~(element.currentStyle || window.getComputedStyle(element)).marginTop.replace(/\D+/g, '');
+        const marginTop = ~~(element.currentStyle || window.getComputedStyle(element).marginTop.replace(/\D+/g, ''));
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
 
