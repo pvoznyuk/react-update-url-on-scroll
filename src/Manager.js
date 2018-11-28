@@ -76,12 +76,14 @@ class Manager {
 
   addListeners = () => {
     window.addEventListener('scroll', this.scrollHandler, true);
-    /* window.addEventListener('hashchange', this.handleHashChange); */
+    window.addEventListener('hashchange', this.handleHashChange);
+    /* window.addEventListener('onpopstate', this.getBasePath); */
   }
 
   removeListeners = () => {
     window.removeEventListener('scroll', this.scrollHandler, true);
-    /* window.removeEventListener('hashchange', this.handleHashChange); */
+    window.removeEventListener('hashchange', this.handleHashChange);
+    /* window.addEventListener('onpopstate', this.getBasePath); */
   }
 
   configure = (config) => {
@@ -123,7 +125,7 @@ class Manager {
 
     // check if this anchor is the current one
     if (window.location.href.endsWith(`${name}${hash ? `#${hash}` : ''}`)) {
-      this.basePath = this.basePath.replace(`/${name}`, '');
+      /* this.basePath = this.basePath.replace(`/${name}`, ''); */
       this.forceHashUpdate();
     }
     if (window.location.pathname.endsWith(`/${name}`)) {
@@ -139,6 +141,8 @@ class Manager {
       meta,
       exact
     };
+
+    this.basePath = this.getBasePath(this.anchors);
 
     this.normalizeMetaTags();
   }

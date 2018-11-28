@@ -1,7 +1,7 @@
 {
   "name": "react-update-url-on-scroll",
-  "version": "3.1.1",
-  "description": "Provide updating the URL/hash on page scrolling.",
+  "version": "3.1.2",
+  "description": "Dynamic updating the URL/hash on page scrolling.",
   "main": "lib/index.js",
   "files": [
     "lib",
