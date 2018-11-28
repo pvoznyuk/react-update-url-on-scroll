@@ -120,11 +120,11 @@ class Manager {
     if (Object.keys(this.anchors).length === 0) {
       this.addListeners();
     }
-    this.forceHashUpdate();
 
     // check if this anchor is the current one
     if (window.location.href.endsWith(`${name}${hash ? `#${hash}` : ''}`)) {
       this.basePath = this.basePath.replace(`/${name}`, '');
+      this.forceHashUpdate();
     }
     if (window.location.pathname.endsWith(`/${name}`)) {
       this.basePathName = this.basePathName.replace(`/${name}`, '');
