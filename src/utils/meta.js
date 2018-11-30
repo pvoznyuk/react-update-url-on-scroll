@@ -1,6 +1,8 @@
+const getMetaTagName = (item) => item.getAttribute('name') || item.getAttribute('property');
+
 const getMeta = (metaName) => {
   const metas = document.getElementsByTagName('meta');
-  return Array.from(metas).find(item => item.getAttribute('name') === metaName);
+  return Array.from(metas).find(item => getMetaTagName(item) === metaName);
 }
 
 export const setMetaTags = (metaTagsList = {}) => {
@@ -35,6 +37,6 @@ export const getDefaultMetaTags = (metaTags) => {
   const metas = document.getElementsByTagName('meta');
 
   return Array.from(metas).reduce((acc, item) => {
-    return {...acc, [item.getAttribute('name')]: item.getAttribute('content')}
+    return {...acc, [getMetaTagName(item)]: item.getAttribute('content')}
   }, { title: document.title });
 }
