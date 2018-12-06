@@ -124,13 +124,13 @@ configureAnchors({offset: 60})
 
 | option                | default          | description      |
 | --------------------  | ---------------- | ---------------- |
-| `affectHistory`       | `false`           | Makes `pushState` if true and `replaceState` if false.
+| `affectHistory`       | `false`          | Makes `pushState` if true and `replaceState` if false.
 | `offset`              | `0`              | Offset from top on scrolling to the section. Can be used if you have a sticky header.
 | `keepLastAnchorHash`  | `false`          | Keep last anchor hash.
 | `debounce`            | `100`            | Debouce the scroll event.
 | `scrollDelay`         | `0`              | Delay between page load and scrolling to the corresponding section.
 | `scrollBehaviour`     | `'smooth'`       | Can be `'smooth'`, `'instant'` and `'auto'`.
-| `scrollOnImagesLoad`  | `false`          | Wait until all the images are loaded before scrolling to the section on page load.
+| `scrollOnImagesLoad`  | `false`          | Wait until all the images are loaded before scrolling to the section on page load. If it is a number the scrolling will be triggered in that timeout (in case images are still not loaded) 
 | `onSectionEnter`      | `null`           | An event that is fired when user reaches to some another section. There are two attributes: `onSectionEnter(newState, oldState)`
 | `meta`                | `null`           | An object that may contain default title and meta-tags to set on page load. e.g. `meta: {title: 'Hello', description: 'World'}` 
 

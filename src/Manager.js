@@ -33,7 +33,21 @@ class Manager {
     this.resetDefaultMetaTags();
 
     setTimeout(() => {
+      let eventDispatched = false;
+      const fireEvent = () => {
+        if (!eventDispatched) {
+          const event = new Event(EVENT_IMAGES_LOADED);
+          window.dispatchEvent(event);
+        }
+        eventDispatched = true;
+      }
+
       if (this.config.scrollOnImagesLoad) {
+
+        if (this.config.scrollOnImagesLoad > 1) {
+          setTimeout(fireEvent, parseInt(this.config.scrollOnImagesLoad, 10));
+        }
+
         const imgs = document.images;
         const len = imgs.length;
         let counter = 0;
@@ -43,8 +57,7 @@ class Manager {
 
           if (counter === len) {
             this.imagesAreLoaded = true;
-            const event = new Event(EVENT_IMAGES_LOADED);
-            window.dispatchEvent(event);
+            fireEvent();
           }
         }
 
@@ -123,13 +136,16 @@ class Manager {
       this.addListeners();
     }
 
+    const urlName = name || '';
+    const urlHash = hash ? `#${hash}` : '';
+
     // check if this anchor is the current one
-    if (window.location.href.endsWith(`${name}${hash ? `#${hash}` : ''}`)) {
+    if (window.location.href.endsWith(`${urlName}${urlHash}`)) {
       /* this.basePath = this.basePath.replace(`/${name}`, ''); */
       this.forceHashUpdate();
     }
-    if (window.location.pathname.endsWith(`/${name}`)) {
-      this.basePathName = this.basePathName.replace(`/${name}`, '');
+    if (window.location.pathname.endsWith(`/${urlName}`)) {
+      this.basePathName = this.basePathName.replace(`/${urlName}`, '');
       if (this.basePathName === '') this.basePathName = '/';
     }
 
