@@ -1,6 +1,6 @@
 {
   "name": "react-update-url-on-scroll",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "Dynamic updating the URL/hash on page scrolling.",
   "main": "lib/index.js",
   "files": [
@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/pvoznyuk/react-update-url-on-scroll",
   "dependencies": {
+    "animated-scroll-to": "^1.2.2",
     "array-from": "^2.1.1",
     "prop-types": "^15.6.2"
   },

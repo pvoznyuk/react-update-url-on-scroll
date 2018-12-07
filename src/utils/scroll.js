@@ -1,3 +1,17 @@
+import animatedScrollTo from 'animated-scroll-to';
+
+export const scrollTo = (options) => {
+  const isIE = /MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent) || /Edge\/\d./i.test(navigator.userAgent);
+
+  if (isIE) {
+    animatedScrollTo(options.top, {
+      speed: options.behavior === 'smooth' ? 500 : 0,
+    });
+  } else {
+    window.scrollTo(options);
+  }
+}
+
 export const getScrollTop = () => {
   return document.body.scrollTop || document.documentElement.scrollTop
 }

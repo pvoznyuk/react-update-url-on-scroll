@@ -1,5 +1,5 @@
 import { debounce, getAnchoreByName } from './utils/func';
-import { getBestAnchorGivenScrollLocation, getScrollTop } from './utils/scroll';
+import { getBestAnchorGivenScrollLocation, getScrollTop, scrollTo } from './utils/scroll';
 import { getHash, updateHash, removeHash } from './utils/hash';
 import { setMetaTags, getDefaultMetaTags } from './utils/meta';
 
@@ -124,7 +124,7 @@ class Manager {
     if (getScrollTop() === 0) return;
     this.forcedHash = true;
 
-    window.scrollTo({
+    scrollTo({
       top: 0,
       behavior: this.config.scrollBehaviour
     });
@@ -141,7 +141,6 @@ class Manager {
 
     // check if this anchor is the current one
     if (window.location.href.endsWith(`${urlName}${urlHash}`)) {
-      /* this.basePath = this.basePath.replace(`/${name}`, ''); */
       this.forceHashUpdate();
     }
     if (window.location.pathname.endsWith(`/${urlName}`)) {
@@ -244,7 +243,6 @@ class Manager {
       } else {
         runScrollingToSection(this.config.scrollDelay);
       }
-
     }
   }
 
@@ -258,7 +256,7 @@ class Manager {
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition - offset;
 
-        window.scrollTo({
+        scrollTo({
           top: offsetPosition,
           behavior: this.config.scrollBehaviour
         });
