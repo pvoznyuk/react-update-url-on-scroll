@@ -17,6 +17,15 @@ export const setMetaTags = (metaTagsList = {}) => {
   Object.keys(metaTags).forEach(tagName => {
     const currentTag = getMeta(tagName);
 
+    if (!metaTags[tagName]) {
+      // remove meta tags
+      if (currentTag) {
+        currentTag.parentNode.removeChild(currentTag);
+      }
+
+      return;
+    }
+
     if (currentTag) {
       // update a meta tag
       currentTag.setAttribute('content', metaTags[tagName]);
