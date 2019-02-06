@@ -12,7 +12,8 @@ const defaultConfig = {
   scrollDelay: 0,
   scrollOnImagesLoad: false,
   onSectionEnter: null,
-  meta: null
+  meta: null,
+  reloadOnGoingBack: false
 }
 
 const EVENT_IMAGES_LOADED = 'images:loaded';
@@ -71,6 +72,15 @@ class Manager {
 
       }
     });
+
+    if (window.history && window.history.pushState) {
+      window.addEventListener('popstate', () => {
+        if (this.config.reloadOnGoingBack) {
+          window.location.reload();
+        }
+      });
+    }
+
   }
 
   getBasePath = (anchors) => {

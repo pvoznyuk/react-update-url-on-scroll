@@ -39,16 +39,16 @@ export default class Page extends Component {
       <div>
         <ScrollableLink href="/section1">
           <a> Go to section 1 </a>
-        </ScrollableLink> 
-        
+        </ScrollableLink>
+
         <ScrollableLink href="/section2">
           <a> Go to section 2 </a>
-        </ScrollableLink> 
+        </ScrollableLink>
 
         <ScrollableSection name={'section1'} meta={title: 'Section 1'} >
           <div> Hello World </div>
         </ScrollableSection>
-        
+
         <ScrollableSection name={'section2'} meta={title: 'Section 2'}>
           <div> How are you world? </div>
         </ScrollableSection>
@@ -65,11 +65,11 @@ You can also use hashes or combine path and hash updates:
 ```html
 <ScrollableLink href="#panel1">
   <a> Go to panel 1 </a>
-</ScrollableLink> 
+</ScrollableLink>
 
 <ScrollableLink href="#panel2">
   <a> Go to panel 2 </a>
-</ScrollableLink> 
+</ScrollableLink>
 
 <ScrollableSection hash={'panel1'}>
   <div> Panel 1 </div>
@@ -83,11 +83,11 @@ You can also use hashes or combine path and hash updates:
 ```html
 <ScrollableLink href="/section1#surprise">
   <a> Go to section 1, section #surprise</a>
-</ScrollableLink> 
+</ScrollableLink>
 
 <ScrollableLink href="/section1#nothing">
   <a> Go to section 1, section #nothing </a>
-</ScrollableLink> 
+</ScrollableLink>
 
 <ScrollableSection name={'section1'} hash={'surprise'}>
   <div> Surprise </div>
@@ -96,11 +96,11 @@ You can also use hashes or combine path and hash updates:
 <ScrollableSection name={'section1'} hash={'nothing'}>
   <div> Nothing </div>
 </ScrollableSection>
-```    
+```
 
 You can also use `exact` prop if you want ot replace whole path with the given name/anchor.
 
-```html 
+```html
 <ScrollableSection name={'section1'} exact>
   <div> Content </div>
 </ScrollableSection>
@@ -130,9 +130,10 @@ configureAnchors({offset: 60})
 | `debounce`            | `100`            | Debouce the scroll event.
 | `scrollDelay`         | `0`              | Delay between page load and scrolling to the corresponding section.
 | `scrollBehaviour`     | `'smooth'`       | Can be `'smooth'`, `'instant'` and `'auto'`.
-| `scrollOnImagesLoad`  | `false`          | Wait until all the images are loaded before scrolling to the section on page load. If it is a number the scrolling will be triggered in that timeout (in case images are still not loaded) 
+| `scrollOnImagesLoad`  | `false`          | Wait until all the images are loaded before scrolling to the section on page load. If it is a number the scrolling will be triggered in that timeout (in case images are still not loaded)
 | `onSectionEnter`      | `null`           | An event that is fired when user reaches to some another section. There are two attributes: `onSectionEnter(newState, oldState)`
-| `meta`                | `null`           | An object that may contain default title and meta-tags to set on page load. e.g. `meta: {title: 'Hello', description: 'World'}` 
+| `meta`                | `null`           | An object that may contain default title and meta-tags to set on page load. e.g. `meta: {title: 'Hello', description: 'World'}`
+| `reloadOnGoingBack`   | `false`          | Set `true` if you need the webpage to be reloaded when user press browser's back button  
 
 ### 3. Utilities
 
