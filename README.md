@@ -26,7 +26,7 @@ browser to localhost:3210.
 ### 1. Creating a scrollable anchor
 
 Use the `ScrollableSection` tag to wrap any React element(s), making it a scrollable anchor.
-Use the `ScrollableLink` to wrpar a link to the corresponding section.
+Use the `ScrollableLink` to wrap a link to the corresponding section.
 You may also set a `meta` attribute if you want to update a document title and meta-tags.
 
 ```js
