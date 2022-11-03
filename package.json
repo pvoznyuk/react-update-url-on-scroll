@@ -64,7 +64,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "expect": "^1.13.4",
-    "mocha": "^2.2.5",
+    "mocha": "^10.1.0",
     "rimraf": "^2.5.0"
   }
 }
